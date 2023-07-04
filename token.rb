@@ -21,6 +21,8 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 module Monkey
+  Token = Struct.new :type, :literal, keyword_init: true
+
   module Token
     # An unknown token/character
     ILLEGAL = "ILLEGAL"
