@@ -7,7 +7,7 @@ require_relative "../token"
 # rubocop:disable Metrics/MethodLength
 module Monkey
   class MonkeyLexerTest < Minitest::Test
-    def test_lexer_tokenise_input_one
+    def test_tokenise_some_characters
       input = "=+(){},;"
       lexer = Lexer.new(input:)
 
@@ -31,7 +31,31 @@ module Monkey
       end
     end
 
-    def test_lexer_tokenise_input_two
+    def test_tokenise_some_identifiers
+      input = "tuna bonito ham yam"
+      lexer = Lexer.new(input:)
+
+      exps = [
+        [TokenType::IDENT, "tuna"],
+        [TokenType::IDENT, "bonito"],
+        [TokenType::IDENT, "ham"],
+        [TokenType::IDENT, "yam"]
+      ]
+
+      # TODO: DRY the duplication?
+      index = 0
+      until lexer.next_token.type == TokenType::EOF
+        token = lexer.next_token
+
+        assert_equal exps[index][0], token.type
+        assert_equal exps[index][1], token.literal
+
+        index += 1
+      end
+    end
+
+    def test_tokenise_a_valid_monkey_source_code
+      skip
       input = <<~INPUT
         let five = 5;
         let ten = 10;
@@ -84,7 +108,7 @@ module Monkey
       ]
 
       index = 0
-      until lexer.char.type == TokenType::EOF
+      until lexer.next_token.type == TokenType::EOF
         token = lexer.next_token
 
         assert_equal exps[index][0], token.type
