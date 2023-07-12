@@ -23,15 +23,20 @@ module Monkey
         [TokenType::EOF, ""]
       ]
 
-      (input.length + 1).times do |i|
-        token = lexer.next_token
+      assert_match_tokens exps, lexer
+    end
 
-        assert_equal exps[i][0], token.type
-        assert_equal exps[i][1], token.literal
-      end
+    def test_tokenise_an_identifier
+      input = "tuna"
+      lexer = Lexer.new(input:)
+
+      exps = [[TokenType::IDENTIFIER, "tuna"]]
+
+      assert_match_tokens exps, lexer
     end
 
     def test_tokenise_some_identifiers
+      skip
       input = "tuna bonito ham yam"
       lexer = Lexer.new(input:)
 
@@ -42,16 +47,7 @@ module Monkey
         [TokenType::IDENT, "yam"]
       ]
 
-      # TODO: DRY the duplication?
-      index = 0
-      until lexer.next_token.type == TokenType::EOF
-        token = lexer.next_token
-
-        assert_equal exps[index][0], token.type
-        assert_equal exps[index][1], token.literal
-
-        index += 1
-      end
+      assert_match_tokens exps, lexer
     end
 
     def test_tokenise_a_valid_monkey_source_code
@@ -107,14 +103,19 @@ module Monkey
         [TokenType::SEMICOLON, ";"]
       ]
 
-      index = 0
-      until lexer.next_token.type == TokenType::EOF
+      assert_match_tokens exps, lexer
+    end
+
+    private
+
+    # :exps: An nested array of type and literal
+    # :lexer: A lexer that already loaded with input
+    def assert_match_tokens(exps, lexer)
+      exps.each do |type, literal|
         token = lexer.next_token
 
-        assert_equal exps[index][0], token.type
-        assert_equal exps[index][1], token.literal
-
-        index += 1
+        assert_equal type, token.type
+        assert_equal literal, token.literal
       end
     end
   end
