@@ -10,39 +10,40 @@ module Monkey
       @input = input
       @next_read_pos = 0
 
-      # NOTE: Might wanna remove it?
-      # read_and_advance
+      read_and_advance
     end
 
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
     # Read the next input, then output corresponding token.
     def next_token
-      # NOTE: Contrary to book, read the char before output the token
+      result = case curr_char
+        when "="
+          Token.new type: TokenType::ASSIGN, literal: curr_char
+        when "+"
+          Token.new type: TokenType::PLUS, literal: curr_char
+        when "("
+          Token.new type: TokenType::LPAREN, literal: curr_char
+        when ")"
+          Token.new type: TokenType::RPAREN, literal: curr_char
+        when "{"
+          Token.new type: TokenType::LBRACE, literal: curr_char
+        when "}"
+          Token.new type: TokenType::RBRACE, literal: curr_char
+        when ","
+          Token.new type: TokenType::COMMA, literal: curr_char
+        when ";"
+          Token.new type: TokenType::SEMICOLON, literal: curr_char
+        when "\x00"
+          Token.new type: TokenType::EOF, literal: ""
+        else
+          identifier = next_identifier
+          type = token_type_for identifier
+          Token.new type:, literal: identifier
+        end
+
       read_and_advance
 
-      case curr_char
-      when "="
-        Token.new type: TokenType::ASSIGN, literal: curr_char
-      when "+"
-        Token.new type: TokenType::PLUS, literal: curr_char
-      when "("
-        Token.new type: TokenType::LPAREN, literal: curr_char
-      when ")"
-        Token.new type: TokenType::RPAREN, literal: curr_char
-      when "{"
-        Token.new type: TokenType::LBRACE, literal: curr_char
-      when "}"
-        Token.new type: TokenType::RBRACE, literal: curr_char
-      when ","
-        Token.new type: TokenType::COMMA, literal: curr_char
-      when ";"
-        Token.new type: TokenType::SEMICOLON, literal: curr_char
-      when "\x00"
-        Token.new type: TokenType::EOF, literal: ""
-      else
-        identifier = next_identifier
-        Token.new type: TokenType::IDENTIFIER, literal: identifier
-      end
+      result
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
 
@@ -61,6 +62,12 @@ module Monkey
     end
 
     private
+
+    def token_type_for(literal)
+      return KEYWORDS[literal] if KEYWORDS.include? literal
+
+      TokenType::IDENTIFIER
+    end
 
     def valid_identifier_letter?(char)
       char.match?(/[a-zA-Z0-9_]/)
