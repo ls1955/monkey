@@ -37,7 +37,7 @@ module Monkey
         Token.new type: TokenType::COMMA, literal: curr_char
       when ";"
         Token.new type: TokenType::SEMICOLON, literal: curr_char
-      when 0
+      when "\x00"
         Token.new type: TokenType::EOF, literal: ""
       else
         identifier = next_identifier
@@ -48,7 +48,7 @@ module Monkey
 
     # Read a char at next_read_pos, and set curr_char with that character
     def read_and_advance
-      @curr_char = next_read_pos < input.length ? input[next_read_pos] : 0
+      @curr_char = next_read_pos < input.length ? input[next_read_pos] : "\x00"
       @curr_pos = next_read_pos
       @next_read_pos += 1
     end
@@ -63,10 +63,7 @@ module Monkey
     private
 
     def valid_identifier_letter?(char)
-      # Check if char is 0 (Integer) which occured at EOF
-      return false unless char.is_a? String
-
-      char.match? /[a-zA-Z0-9_]/
+      char.match?(/[a-zA-Z0-9_]/)
     end
   end
 end
