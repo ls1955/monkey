@@ -36,22 +36,20 @@ module Monkey
     end
 
     def test_tokenise_some_identifiers
-      skip
       input = "tuna bonito ham yam"
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::IDENT, "tuna"],
-        [TokenType::IDENT, "bonito"],
-        [TokenType::IDENT, "ham"],
-        [TokenType::IDENT, "yam"]
+        [TokenType::IDENTIFIER, "tuna"],
+        [TokenType::IDENTIFIER, "bonito"],
+        [TokenType::IDENTIFIER, "ham"],
+        [TokenType::IDENTIFIER, "yam"]
       ]
 
       assert_match_tokens exps, lexer
     end
 
     def test_tokenise_a_valid_monkey_source_code
-      skip
       input = <<~INPUT
         let five = 5;
         let ten = 10;
@@ -66,39 +64,39 @@ module Monkey
 
       exps = [
         [TokenType::LET, "let"],
-        [TokenType::IDENT, "five"],
+        [TokenType::IDENTIFIER, "five"],
         [TokenType::ASSIGN, "="],
         [TokenType::INT, 5],
         [TokenType::SEMICOLON, ";"],
         [TokenType::LET, "let"],
-        [TokenType::IDENT, "ten"],
+        [TokenType::IDENTIFIER, "ten"],
         [TokenType::ASSIGN, "="],
         [TokenType::INT, 10],
         [TokenType::SEMICOLON, ";"],
         [TokenType::LET, "let"],
-        [TokenType::IDENT, "add"],
+        [TokenType::IDENTIFIER, "add"],
         [TokenType::ASSIGN, "="],
         [TokenType::FUNCTION, "fn"],
         [TokenType::LPAREN, "("],
-        [TokenType::IDENT, "x"],
+        [TokenType::IDENTIFIER, "x"],
         [TokenType::COMMA, ","],
-        [TokenType::IDENT, "y"],
+        [TokenType::IDENTIFIER, "y"],
         [TokenType::RPAREN, ")"],
         [TokenType::LBRACE, "{"],
-        [TokenType::IDENT, "x"],
+        [TokenType::IDENTIFIER, "x"],
         [TokenType::PLUS, "+"],
-        [TokenType::IDENT, "y"],
+        [TokenType::IDENTIFIER, "y"],
         [TokenType::SEMICOLON, ";"],
         [TokenType::RBRACE, "}"],
         [TokenType::SEMICOLON, ";"],
         [TokenType::LET, "let"],
-        [TokenType::IDENT, "result"],
+        [TokenType::IDENTIFIER, "result"],
         [TokenType::ASSIGN, "="],
-        [TokenType::IDENT, "add"],
+        [TokenType::IDENTIFIER, "add"],
         [TokenType::LPAREN, "("],
-        [TokenType::IDENT, "five"],
+        [TokenType::IDENTIFIER, "five"],
         [TokenType::COMMA, ","],
-        [TokenType::IDENT, "ten"],
+        [TokenType::IDENTIFIER, "ten"],
         [TokenType::RPAREN, ")"],
         [TokenType::SEMICOLON, ";"]
       ]
