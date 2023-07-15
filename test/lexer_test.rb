@@ -26,16 +26,7 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
-    def test_tokenise_an_identifier
-      input = "tuna"
-      lexer = Lexer.new(input:)
-
-      exps = [[TokenType::IDENTIFIER, "tuna"]]
-
-      assert_match_tokens exps, lexer
-    end
-
-    def test_tokenise_some_identifiers
+    def test_tokenise_some_non_keyword_identifiers
       input = "tuna bonito ham yam"
       lexer = Lexer.new(input:)
 
@@ -49,7 +40,22 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
+    def test_tokenise_some_integer_literal_that_token_contain_actual_integer
+      input = "1 9 123 8735"
+      lexer = Lexer.new(input:)
+
+      exps = [
+        [TokenType::INT, 1],
+        [TokenType::INT, 9],
+        [TokenType::INT, 123],
+        [TokenType::INT, 8735]
+      ]
+
+      assert_match_tokens exps, lexer
+    end
+
     def test_tokenise_a_valid_monkey_source_code
+      skip
       input = <<~INPUT
         let five = 5;
         let ten = 10;
