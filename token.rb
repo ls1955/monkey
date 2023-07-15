@@ -29,4 +29,9 @@ module Monkey
     FUNCTION = "FUNCTION"
     LET = "LET"
   end
+
+  KEYWORDS = {
+    "let" => TokenType::LET,
+    "fn" => TokenType::FUNCTION
+  }
 end
