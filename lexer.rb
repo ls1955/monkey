@@ -25,7 +25,8 @@ module Monkey
     def next_token
       skip_whitespaces
 
-      result = case curr_char
+      result =
+        case curr_char
         when "="
           Token.new type: TokenType::ASSIGN, literal: curr_char
         when "+"
@@ -45,7 +46,11 @@ module Monkey
         when "\x00"
           Token.new type: TokenType::EOF, literal: ""
         else
-          if valid_identifier_letter? curr_char
+          if valid_integer_letter? curr_char
+            integer = next_integer
+            type = TokenType::INT
+            return Token.new type:, literal: integer
+          elsif valid_identifier_letter? curr_char
             identifier = next_identifier
             type = token_type_for identifier
             return Token.new type:, literal: identifier
@@ -74,6 +79,13 @@ module Monkey
       input[start_pos...curr_pos]
     end
 
+    # Keep reading valid integer literals and return it as an integer
+    def next_integer
+      start_pos = curr_pos
+      read_and_advance while valid_integer_letter?(curr_char)
+      input[start_pos...curr_pos].to_i
+    end
+
     private
 
     def skip_whitespaces
@@ -88,6 +100,10 @@ module Monkey
       return KEYWORDS[literal] if KEYWORDS.include? literal
 
       TokenType::IDENTIFIER
+    end
+
+    def valid_integer_letter?(char)
+      char.match?(/\d/)
     end
 
     def valid_identifier_letter?(char)
