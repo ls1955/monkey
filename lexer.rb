@@ -107,7 +107,7 @@ module Monkey
     end
 
     def valid_identifier_letter?(char)
-      char.match?(/[a-zA-Z0-9_]/)
+      char.match?(/[a-zA-Z_]/)
     end
   end
 end
