@@ -54,12 +54,8 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
-    def test_tokenise_a_valid_monkey_source_code
-      skip
+    def test_tokenise_a_function_declaration_and_expression
       input = <<~INPUT
-        let five = 5;
-        let ten = 10;
-
         let add = fn(x, y) {
           x + y;
         };
@@ -69,16 +65,6 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::LET, "let"],
-        [TokenType::IDENTIFIER, "five"],
-        [TokenType::ASSIGN, "="],
-        [TokenType::INT, 5],
-        [TokenType::SEMICOLON, ";"],
-        [TokenType::LET, "let"],
-        [TokenType::IDENTIFIER, "ten"],
-        [TokenType::ASSIGN, "="],
-        [TokenType::INT, 10],
-        [TokenType::SEMICOLON, ";"],
         [TokenType::LET, "let"],
         [TokenType::IDENTIFIER, "add"],
         [TokenType::ASSIGN, "="],
