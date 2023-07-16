@@ -29,8 +29,20 @@ module Monkey
         case curr_char
         when "="
           Token.new type: TokenType::ASSIGN, literal: curr_char
+        when "!"
+          Token.new type: TokenType::BANG, literal: curr_char
         when "+"
           Token.new type: TokenType::PLUS, literal: curr_char
+        when "-"
+          Token.new type: TokenType::MINUS, literal: curr_char
+        when "*"
+          Token.new type: TokenType::ASTERISK, literal: curr_char
+        when "/"
+          Token.new type: TokenType::SLASH, literal: curr_char
+        when "<"
+          Token.new type: TokenType::LT, literal: curr_char
+        when ">"
+          Token.new type: TokenType::GT, literal: curr_char
         when "("
           Token.new type: TokenType::LPAREN, literal: curr_char
         when ")"

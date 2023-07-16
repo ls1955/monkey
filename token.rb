@@ -14,7 +14,13 @@ module Monkey
 
     # Operators
     ASSIGN = "="
+    BANG = "!"
     PLUS = "+"
+    MINUS = "-"
+    ASTERISK = "*"
+    SLASH = "/"
+    LT = "<"
+    GT = ">"
 
     # Delimiters
     COMMA = ","

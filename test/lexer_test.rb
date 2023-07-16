@@ -96,6 +96,29 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
+    def test_tokenise_some_single_character_operator
+      input = <<~INPUT
+        !-/*;
+        5 < 10 > 5
+      INPUT
+      lexer = Lexer.new(input:)
+
+      exps = [
+        [TokenType::BANG, "!"],
+        [TokenType::MINUS, "-"],
+        [TokenType::SLASH, "/"],
+        [TokenType::ASTERISK, "*"],
+        [TokenType::SEMICOLON, ";"],
+        [TokenType::INT, 5],
+        [TokenType::LT, "<"],
+        [TokenType::INT, 10],
+        [TokenType::GT, ">"],
+        [TokenType::INT, 5]
+      ]
+
+      assert_match_tokens exps, lexer
+    end
+
     private
 
     # :exps: An nested array of type and literal
