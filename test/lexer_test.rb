@@ -119,6 +119,35 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
+    def test_tokenise_some_keywords_identifiers
+      input = <<~INPUT
+        if (num < 10) {
+          return true
+        } else {
+          return false
+        }
+      INPUT
+      lexer = Lexer.new(input:)
+
+      exps = [
+        [TokenType::IF, "if"],
+        [TokenType::LPAREN, "("],
+        [TokenType::IDENTIFIER, "num"],
+        [TokenType::LT, "<"],
+        [TokenType::INT, 10],
+        [TokenType::RPAREN, ")"],
+        [TokenType::LBRACE, "{"],
+        [TokenType::RETURN, "return"],
+        [TokenType::TRUE, "true"],
+        [TokenType::RBRACE, "}"],
+        [TokenType::ELSE, "else"],
+        [TokenType::LBRACE, "{"],
+        [TokenType::RETURN, "return"],
+        [TokenType::FALSE, "false"],
+        [TokenType::RBRACE, "}"]
+      ]
+    end
+
     private
 
     # :exps: An nested array of type and literal

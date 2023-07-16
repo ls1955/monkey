@@ -34,10 +34,22 @@ module Monkey
     # Keywords
     FUNCTION = "FUNCTION"
     LET = "LET"
+    RETURN = "RETURN"
+
+    IF = "IF"
+    ELSE = "ELSE"
+
+    TRUE = "TRUE"
+    FALSE = "FALSE"
   end
 
   KEYWORDS = {
+    "fn" => TokenType::FUNCTION,
     "let" => TokenType::LET,
-    "fn" => TokenType::FUNCTION
+    "return" => TokenType::RETURN,
+    "if" => TokenType::IF,
+    "else" => TokenType::ELSE,
+    "true" => TokenType::TRUE,
+    "false" => TokenType::FALSE
   }
 end
