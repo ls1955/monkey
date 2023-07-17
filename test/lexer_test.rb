@@ -7,20 +7,22 @@ require_relative "../token"
 # rubocop:disable Metrics/MethodLength
 module Monkey
   class MonkeyLexerTest < Minitest::Test
+    include TokenType
+
     def test_tokenise_some_characters
       input = "=+(){},;"
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::ASSIGN, "="],
-        [TokenType::PLUS, "+"],
-        [TokenType::LPAREN, "("],
-        [TokenType::RPAREN, ")"],
-        [TokenType::LBRACE, "{"],
-        [TokenType::RBRACE, "}"],
-        [TokenType::COMMA, ","],
-        [TokenType::SEMICOLON, ";"],
-        [TokenType::EOF, ""]
+        [ASSIGN, "="],
+        [PLUS, "+"],
+        [LPAREN, "("],
+        [RPAREN, ")"],
+        [LBRACE, "{"],
+        [RBRACE, "}"],
+        [COMMA, ","],
+        [SEMICOLON, ";"],
+        [EOF, ""]
       ]
 
       assert_match_tokens exps, lexer
@@ -31,10 +33,10 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::IDENTIFIER, "tuna"],
-        [TokenType::IDENTIFIER, "bonito"],
-        [TokenType::IDENTIFIER, "ham"],
-        [TokenType::IDENTIFIER, "yam"]
+        [IDENTIFIER, "tuna"],
+        [IDENTIFIER, "bonito"],
+        [IDENTIFIER, "ham"],
+        [IDENTIFIER, "yam"]
       ]
 
       assert_match_tokens exps, lexer
@@ -45,10 +47,10 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::INT, 1],
-        [TokenType::INT, 9],
-        [TokenType::INT, 123],
-        [TokenType::INT, 8735]
+        [INT, 1],
+        [INT, 9],
+        [INT, 123],
+        [INT, 8735]
       ]
 
       assert_match_tokens exps, lexer
@@ -65,32 +67,32 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::LET, "let"],
-        [TokenType::IDENTIFIER, "add"],
-        [TokenType::ASSIGN, "="],
-        [TokenType::FUNCTION, "fn"],
-        [TokenType::LPAREN, "("],
-        [TokenType::IDENTIFIER, "x"],
-        [TokenType::COMMA, ","],
-        [TokenType::IDENTIFIER, "y"],
-        [TokenType::RPAREN, ")"],
-        [TokenType::LBRACE, "{"],
-        [TokenType::IDENTIFIER, "x"],
-        [TokenType::PLUS, "+"],
-        [TokenType::IDENTIFIER, "y"],
-        [TokenType::SEMICOLON, ";"],
-        [TokenType::RBRACE, "}"],
-        [TokenType::SEMICOLON, ";"],
-        [TokenType::LET, "let"],
-        [TokenType::IDENTIFIER, "result"],
-        [TokenType::ASSIGN, "="],
-        [TokenType::IDENTIFIER, "add"],
-        [TokenType::LPAREN, "("],
-        [TokenType::IDENTIFIER, "five"],
-        [TokenType::COMMA, ","],
-        [TokenType::IDENTIFIER, "ten"],
-        [TokenType::RPAREN, ")"],
-        [TokenType::SEMICOLON, ";"]
+        [LET, "let"],
+        [IDENTIFIER, "add"],
+        [ASSIGN, "="],
+        [FUNCTION, "fn"],
+        [LPAREN, "("],
+        [IDENTIFIER, "x"],
+        [COMMA, ","],
+        [IDENTIFIER, "y"],
+        [RPAREN, ")"],
+        [LBRACE, "{"],
+        [IDENTIFIER, "x"],
+        [PLUS, "+"],
+        [IDENTIFIER, "y"],
+        [SEMICOLON, ";"],
+        [RBRACE, "}"],
+        [SEMICOLON, ";"],
+        [LET, "let"],
+        [IDENTIFIER, "result"],
+        [ASSIGN, "="],
+        [IDENTIFIER, "add"],
+        [LPAREN, "("],
+        [IDENTIFIER, "five"],
+        [COMMA, ","],
+        [IDENTIFIER, "ten"],
+        [RPAREN, ")"],
+        [SEMICOLON, ";"]
       ]
 
       assert_match_tokens exps, lexer
@@ -104,16 +106,16 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::BANG, "!"],
-        [TokenType::MINUS, "-"],
-        [TokenType::SLASH, "/"],
-        [TokenType::ASTERISK, "*"],
-        [TokenType::SEMICOLON, ";"],
-        [TokenType::INT, 5],
-        [TokenType::LT, "<"],
-        [TokenType::INT, 10],
-        [TokenType::GT, ">"],
-        [TokenType::INT, 5]
+        [BANG, "!"],
+        [MINUS, "-"],
+        [SLASH, "/"],
+        [ASTERISK, "*"],
+        [SEMICOLON, ";"],
+        [INT, 5],
+        [LT, "<"],
+        [INT, 10],
+        [GT, ">"],
+        [INT, 5]
       ]
 
       assert_match_tokens exps, lexer
@@ -127,12 +129,12 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::IDENTIFIER, "potato"],
-        [TokenType::EQ, "=="],
-        [TokenType::IDENTIFIER, "vegetable"],
-        [TokenType::IDENTIFIER, "tuna"],
-        [TokenType::NOT_EQ, "!="],
-        [TokenType::IDENTIFIER, "bonito"]
+        [IDENTIFIER, "potato"],
+        [EQ, "=="],
+        [IDENTIFIER, "vegetable"],
+        [IDENTIFIER, "tuna"],
+        [NOT_EQ, "!="],
+        [IDENTIFIER, "bonito"]
       ]
 
       assert_match_tokens exps, lexer
@@ -149,21 +151,21 @@ module Monkey
       lexer = Lexer.new(input:)
 
       exps = [
-        [TokenType::IF, "if"],
-        [TokenType::LPAREN, "("],
-        [TokenType::IDENTIFIER, "num"],
-        [TokenType::LT, "<"],
-        [TokenType::INT, 10],
-        [TokenType::RPAREN, ")"],
-        [TokenType::LBRACE, "{"],
-        [TokenType::RETURN, "return"],
-        [TokenType::TRUE, "true"],
-        [TokenType::RBRACE, "}"],
-        [TokenType::ELSE, "else"],
-        [TokenType::LBRACE, "{"],
-        [TokenType::RETURN, "return"],
-        [TokenType::FALSE, "false"],
-        [TokenType::RBRACE, "}"]
+        [IF, "if"],
+        [LPAREN, "("],
+        [IDENTIFIER, "num"],
+        [LT, "<"],
+        [INT, 10],
+        [RPAREN, ")"],
+        [LBRACE, "{"],
+        [RETURN, "return"],
+        [TRUE, "true"],
+        [RBRACE, "}"],
+        [ELSE, "else"],
+        [LBRACE, "{"],
+        [RETURN, "return"],
+        [FALSE, "false"],
+        [RBRACE, "}"]
       ]
     end
 

@@ -9,6 +9,8 @@ end
 
 module Monkey
   class Lexer
+    include TokenType
+
     attr_accessor :curr_char, :curr_pos, :next_read_pos, :input
 
     def initialize(input:)
@@ -30,54 +32,55 @@ module Monkey
         when "="
           if peak_next_char == "="
             read_and_advance
-            Token.new type: TokenType::EQ, literal: "=="
+            Token.new type: EQ, literal: "=="
           else
-            Token.new type: TokenType::ASSIGN, literal: curr_char
+            Token.new type: ASSIGN, literal: curr_char
           end
         when "!"
           if peak_next_char == "="
             read_and_advance
-            Token.new type: TokenType::NOT_EQ, literal: "!="
+            Token.new type: NOT_EQ, literal: "!="
           else
-            Token.new type: TokenType::BANG, literal: curr_char
+            Token.new type: BANG, literal: curr_char
           end
         when "+"
-          Token.new type: TokenType::PLUS, literal: curr_char
+          Token.new type: PLUS, literal: curr_char
         when "-"
-          Token.new type: TokenType::MINUS, literal: curr_char
+          Token.new type: MINUS, literal: curr_char
         when "*"
-          Token.new type: TokenType::ASTERISK, literal: curr_char
+          Token.new type: ASTERISK, literal: curr_char
         when "/"
-          Token.new type: TokenType::SLASH, literal: curr_char
+          Token.new type: SLASH, literal: curr_char
         when "<"
-          Token.new type: TokenType::LT, literal: curr_char
+          Token.new type: LT, literal: curr_char
         when ">"
-          Token.new type: TokenType::GT, literal: curr_char
+          Token.new type: GT, literal: curr_char
         when "("
-          Token.new type: TokenType::LPAREN, literal: curr_char
+          Token.new type: LPAREN, literal: curr_char
         when ")"
-          Token.new type: TokenType::RPAREN, literal: curr_char
+          Token.new type: RPAREN, literal: curr_char
         when "{"
-          Token.new type: TokenType::LBRACE, literal: curr_char
+          Token.new type: LBRACE, literal: curr_char
         when "}"
-          Token.new type: TokenType::RBRACE, literal: curr_char
+          Token.new type: RBRACE, literal: curr_char
         when ","
-          Token.new type: TokenType::COMMA, literal: curr_char
+          Token.new type: COMMA, literal: curr_char
         when ";"
-          Token.new type: TokenType::SEMICOLON, literal: curr_char
+          Token.new type: SEMICOLON, literal: curr_char
         when "\x00"
-          Token.new type: TokenType::EOF, literal: ""
+          Token.new type: EOF, literal: ""
         else
           if valid_integer_letter? curr_char
             integer = next_integer
-            type = TokenType::INT
-            return Token.new type:, literal: integer
+
+            return Token.new type: INT, literal: integer
           elsif valid_identifier_letter? curr_char
             identifier = next_identifier
             type = token_type_for identifier
+
             return Token.new type:, literal: identifier
           else
-            Token.new type: TokenType::ILLEGAL, literal: curr_char
+            Token.new type: ILLEGAL, literal: curr_char
           end
         end
 
@@ -128,7 +131,7 @@ module Monkey
     def token_type_for(literal)
       return KEYWORDS[literal] if KEYWORDS.include? literal
 
-      TokenType::IDENTIFIER
+      IDENTIFIER
     end
 
     def valid_integer_letter?(char)
