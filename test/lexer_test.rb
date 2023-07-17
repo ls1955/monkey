@@ -119,6 +119,25 @@ module Monkey
       assert_match_tokens exps, lexer
     end
 
+    def test_tokenise_some_two_characters_operators
+      input = <<~INPUT
+        potato == vegetable
+        tuna != bonito
+      INPUT
+      lexer = Lexer.new(input:)
+
+      exps = [
+        [TokenType::IDENTIFIER, "potato"],
+        [TokenType::EQ, "=="],
+        [TokenType::IDENTIFIER, "vegetable"],
+        [TokenType::IDENTIFIER, "tuna"],
+        [TokenType::NOT_EQ, "!="],
+        [TokenType::IDENTIFIER, "bonito"]
+      ]
+
+      assert_match_tokens exps, lexer
+    end
+
     def test_tokenise_some_keywords_identifiers
       input = <<~INPUT
         if (num < 10) {

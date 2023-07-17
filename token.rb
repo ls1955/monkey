@@ -19,8 +19,11 @@ module Monkey
     MINUS = "-"
     ASTERISK = "*"
     SLASH = "/"
+
     LT = "<"
     GT = ">"
+    EQ = "=="
+    NOT_EQ = "!="
 
     # Delimiters
     COMMA = ","

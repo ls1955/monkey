@@ -28,9 +28,19 @@ module Monkey
       result =
         case curr_char
         when "="
-          Token.new type: TokenType::ASSIGN, literal: curr_char
+          if peak_next_char == "="
+            read_and_advance
+            Token.new type: TokenType::EQ, literal: "=="
+          else
+            Token.new type: TokenType::ASSIGN, literal: curr_char
+          end
         when "!"
-          Token.new type: TokenType::BANG, literal: curr_char
+          if peak_next_char == "="
+            read_and_advance
+            Token.new type: TokenType::NOT_EQ, literal: "!="
+          else
+            Token.new type: TokenType::BANG, literal: curr_char
+          end
         when "+"
           Token.new type: TokenType::PLUS, literal: curr_char
         when "-"
@@ -99,6 +109,13 @@ module Monkey
     end
 
     private
+
+    # Take a look at next read character without advance
+    def peak_next_char
+      return "\x00" unless next_read_pos < input.length
+
+      input[next_read_pos]
+    end
 
     def skip_whitespaces
       # An early return to prevent infinite loop after reading past the input
