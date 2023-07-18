@@ -111,6 +111,18 @@ module Monkey
       input[start_pos...curr_pos].to_i
     end
 
+    # Iterate through inputs and yield token until EOF
+    def each_token
+      return to_enum unless block_given?
+
+      token = next_token
+
+      until token.type == EOF
+        yield token
+        token = next_token
+      end
+    end
+
     private
 
     # Take a look at next read character without advance
