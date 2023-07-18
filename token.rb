@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 module Monkey
-  Token = Struct.new :type, :literal, keyword_init: true
+  Token = Struct.new :type, :literal, keyword_init: true do
+    def to_s
+      "type: #{type}, literal: #{literal}"
+    end
+  end
 
   module TokenType
     # An unknown token/character
