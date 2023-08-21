@@ -11,6 +11,8 @@ module Monkey
       2.times { next_token }
     end
 
+    # Read through the tokens from lexer and update current and next token
+    # that the parser is working with
     def next_token
       @curr_token = peek_token
       @peek_token = lexer.next_token
