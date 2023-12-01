@@ -17,5 +17,9 @@ module Monkey
       @curr_token = peek_token
       @peek_token = lexer.next_token
     end
+
+    def parse_program
+      # pass
+    end
   end
 end

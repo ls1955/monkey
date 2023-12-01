@@ -36,7 +36,7 @@ module Monkey
       lexer = Lexer.new(input:)
       parser = Parser.new(lexer:)
 
-      program = parser.parse
+      program = parser.parse_program
 
       assert program
       assert_equal 3, program.size
